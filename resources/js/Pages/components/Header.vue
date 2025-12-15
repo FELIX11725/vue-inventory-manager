@@ -64,14 +64,8 @@
           >
             Signatures
           </a>
-          <a
-            href="/create-post"
-            class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition-colors"
-          >
-            Make Post
-           
-          </a>
-          
+
+
         </nav>
 
         <!-- Right: Profile Area -->

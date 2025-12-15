@@ -126,7 +126,7 @@ function handleSubmit() {
             style="scrollbar-width: thin; scrollbar-color: #e5e7eb transparent;"
           >
             <div 
-              v-for="cat in categories" 
+              v-for="cat in postcategories" 
               :key="cat.id" 
               class="p-4 hover:bg-gray-50 transition"
             >

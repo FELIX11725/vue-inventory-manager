@@ -17,6 +17,9 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.2.19",
-        "vue": "^3.5.25"
+        "@nuxt/ui": "^4.2.1",
+        "select2-vue3": "^1.0.8-rc0",
+        "vue": "^3.5.25",
+        "vue3-select2-component": "^0.1.7"
     }
 }

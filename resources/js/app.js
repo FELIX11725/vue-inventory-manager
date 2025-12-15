@@ -1,6 +1,8 @@
 import '../css/app.css'
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import {Select2Vue3} from 'select2-vue3'
+import 'select2-vue3/dist/select2-vue3.css'
 
 createInertiaApp({
     resolve: name => {
@@ -10,6 +12,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .component('Select2Vue3', Select2Vue3)
             .mount(el)
     },
 })

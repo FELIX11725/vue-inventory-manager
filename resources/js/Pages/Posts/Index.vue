@@ -2,12 +2,13 @@
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import Header from '../components/Header.vue'
+import Modal from '../components/Modal.vue'
 
 defineProps({
     posts: []
 })
 
-
+const showFormModal = ref(false)
 
 const confirmDelete = (commentId) => {
     router.delete(`/comments/${commentId}`)
@@ -56,12 +57,40 @@ const confirmDelete = (commentId) => {
           >
             Post Categories
           </a>
-           <a
-            href="/create-post"
-            class="mt-6 inline-block px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors "
-          >
-            Add Comments
-          </a>
+
+        
+
+
+          
+    <Modal 
+      v-model="showFormModal" 
+      title="User Information" 
+      size="lg"
+      :close-on-escape="false"
+    >
+    <template #header>
+      <h1 class="text-xl-bold">Add a Comment</h1>
+    </template>
+      <template #body>
+        <form @submit.prevent="handleSubmit" class="form">
+          <div class="form-group">
+            <label for="name">Comment</label>
+            <input
+            type="text"
+            placeholder="enter comment.."
+            
+            />
+           
+          </div>
+        </form>
+      </template>
+      
+      <template #footer="{ close }">
+        <button @click="close" class="bg-white-600 text-black font-medium rounded-lg px-2 py-1 hover:bg-indigo-100 transition-colors">Cancel</button>
+        <button @click="handleSubmit" class="bg-indigo-600 text-white font-medium rounded-lg px-2 py-1 hover:bg-indigo-700 transition-colors">Save</button>
+      </template>
+    </Modal>
+           
         </div>
       </div>
 
@@ -73,6 +102,7 @@ const confirmDelete = (commentId) => {
       <!-- Posts List -->
       <div v-if="posts.length === 0" class="text-center py-12 text-gray-500">
         <p>No posts yet.</p>
+        
       </div>
 
       <div v-for="post in posts" :key="post.id" class="mb-12 bg-white rounded-xl shadow-sm overflow-hidden">
@@ -82,6 +112,9 @@ const confirmDelete = (commentId) => {
           <p class="mt-2 text-gray-600">{{ post.content }}</p>
           <div class="mt-3 text-sm text-gray-500">
             Posted on {{ new Date(post.created_at).toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric',year:'numeric' }) }}
+                    <button @click="showFormModal = true" class="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 disabled:opacity-50">
+                      Add Comment
+                    </button>
           </div>
         </div>
 
@@ -98,6 +131,7 @@ const confirmDelete = (commentId) => {
           <div v-if="post.comments.length === 0" class="text-gray-500 italic">
             No comments yet.
           </div>
+
 
           <div v-for="comment in post.comments" :key="comment.id" class="mb-4 last:mb-0">
             <div class="flex gap-3">
@@ -117,13 +151,17 @@ const confirmDelete = (commentId) => {
                   <span>{{ new Date(comment.created_at).toLocaleString('en-US',{month:'long',weekday:'short',day:'numeric',year:'numeric'}) }}</span>
                   
                   <!-- Delete Button -->
-                  <button
-                    type="button"
-                    @click="confirmDelete(comment.id)"
-                    class="text-rose-600 hover:text-rose-800 font-medium flex items-center gap-1 disabled:opacity-50"
-                  >
-                    Delete
-                  </button>
+                    <div class="flex items-center gap-2 ml-auto">
+                    <button
+                      type="button"
+                      @click="confirmDelete(comment.id)"
+                      class="text-rose-600 hover:text-rose-800 font-medium flex items-center gap-1 disabled:opacity-50"
+                    >
+                      Delete
+                    </button>
+
+                    
+                    </div>
                 </div>
               </div>
             </div>
