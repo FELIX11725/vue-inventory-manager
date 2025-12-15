@@ -12,13 +12,14 @@ class Post extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'post_category_id',
         'title',
         'content',
     ];
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->latest(); 
+        return $this->hasMany(Comment::class)->latest();
     }
 
     public function postCategory()
