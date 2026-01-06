@@ -21,5 +21,6 @@ Route::post('/store-post', [PostController::class, 'store'])->name('posts.store'
 Route::get('/create-post-category', [PostCategoryController::class, 'index'])->name('postscategories.index');
 Route::post('/create-categories', [PostCategoryController::class, 'store'])->name('postscategories.store');
 Route::delete('/comments/{comment}', [PostController::class, 'destroyComment'])->name('comments.destroy');
+Route::post('/posts/{post}/comments', [PostController::class, 'storeComment'])->name('comments.store');
 Route::post('/store-signatures', [SignatureController::class, 'store'])->name('signatures.store');
 Route::get('/signatures', [SignatureController::class, 'index'])->name('signatures.index');
