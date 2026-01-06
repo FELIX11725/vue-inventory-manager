@@ -9,6 +9,30 @@ defineProps({
 })
 
 const showFormModal = ref(false)
+const selectedPostId = ref(null) // 👈 NEW: track which post we're commenting on
+const commentBody = ref('') // 👈 NEW: bind input to this
+
+const openCommentModal = (postId) => {
+  selectedPostId.value = postId
+  commentBody.value = ''
+  showFormModal.value = true
+}
+
+const submitcomment = () => {
+  if (!commentBody.value.trim()) return
+
+  router.post(`/posts/${selectedPostId.value}/comments`, {
+    body: commentBody.value
+  }, {
+    preserveScroll: true,
+    onSuccess: () => {
+      // Close modal and reset
+      showFormModal.value = false
+      commentBody.value = ''
+      selectedPostId.value = null
+    }
+  })
+}
 
 const confirmDelete = (commentId) => {
     router.delete(`/comments/${commentId}`)
@@ -72,12 +96,15 @@ const confirmDelete = (commentId) => {
       <h1 class="text-xl-bold">Add a Comment</h1>
     </template>
       <template #body>
-        <form @submit.prevent="handleSubmit" class="form">
+        <form @submit.prevent="submitcomment" class="form">
           <div class="form-group">
             <label for="name">Comment</label>
             <input
+            v-model="commentBody"
             type="text"
             placeholder="enter comment.."
+             class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        
             
             />
            
@@ -87,7 +114,7 @@ const confirmDelete = (commentId) => {
       
       <template #footer="{ close }">
         <button @click="close" class="bg-white-600 text-black font-medium rounded-lg px-2 py-1 hover:bg-indigo-100 transition-colors">Cancel</button>
-        <button @click="handleSubmit" class="bg-indigo-600 text-white font-medium rounded-lg px-2 py-1 hover:bg-indigo-700 transition-colors">Save</button>
+        <button @click="submitcomment" class="bg-indigo-600 text-white font-medium rounded-lg px-2 py-1 hover:bg-indigo-700 transition-colors">Save</button>
       </template>
     </Modal>
            
@@ -112,8 +139,11 @@ const confirmDelete = (commentId) => {
           <p class="mt-2 text-gray-600">{{ post.content }}</p>
           <div class="mt-3 text-sm text-gray-500">
             Posted on {{ new Date(post.created_at).toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric',year:'numeric' }) }}
-                    <button @click="showFormModal = true" class="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 disabled:opacity-50">
-                      Add Comment
+                    <button 
+                        @click="openCommentModal(post.id)" 
+                        class="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1"
+                        >
+                         Add Comment
                     </button>
           </div>
         </div>

@@ -59,4 +59,17 @@ class PostController extends Controller
             ->with('message', 'Post created successfully!');
     }
 
+    public function storeComment(Request $request, Post $post)
+    {
+        $validated = $request->validate([
+            'body' => 'required|string|max:1000',
+        ]);
+
+        $post->comments()->create([
+            'body' => $validated['body'],
+        ]);
+
+        return back()->with('message', 'Comment added successfully!');
+    }
+
 }
