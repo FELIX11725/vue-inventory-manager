@@ -12,10 +12,8 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        return inertia::render('Profile/settings', [
-            'users'=> $users,
-        ]);
+       
+        return inertia::render('Profile/settings');
     }
 
 
