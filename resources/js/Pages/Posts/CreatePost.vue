@@ -2,6 +2,8 @@
 import Header from '../components/Header.vue'
 import { useForm } from '@inertiajs/vue3'
 import { computed } from "vue";
+import {Select2Vue3} from 'select2-vue3'
+import 'select2-vue3/dist/select2-vue3.css'
 
 
 const form = useForm({
@@ -14,12 +16,12 @@ const props = defineProps({
   postcategories: []
 })
 
-const selectOptions = computed(() =>
+const selectOptions = 
     props.postcategories.map(c => ({
         id: c.id,
         text: c.name
     }))
-)
+
 
 
 

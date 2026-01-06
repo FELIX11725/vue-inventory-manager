@@ -6,16 +6,21 @@ import Header from '../components/Header.vue'
 
   
 
-const page = usePage();
+//const page = usePage();
+const props = defineProps({
+  user: Object
+})
 
 
 
 const form = useForm({
-  name: page.props.user.name,
-  email: page.props.user.email,
-  password:page.props.user.password,
+  name: props.user.name,
+  email: props.user.email,
+  password:props.user.password,
   avatar_path: null,
 })
+
+
 
 const avatarPreview = ref()
 
@@ -24,6 +29,7 @@ watch(
   (newAvatar) => {
     if (newAvatar) {
       const reader = new FileReader()
+      console.log(reader)
       reader.onload = (e) => {
         avatarPreview.value = e.target?.result 
       }

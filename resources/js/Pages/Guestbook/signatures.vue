@@ -1,14 +1,15 @@
-<script setup lang="js">
+<script setup>
 import { useForm } from '@inertiajs/vue3'
 import Header from '../components/Header.vue'
+import { watch } from 'vue'
 
 const form = useForm({
     name: '',
     message: '',
 })
 
-defineProps({
-    signatures: []
+const props = defineProps({
+    signatures: Object
 })
 
 function handleSubmit() {
@@ -18,6 +19,14 @@ function handleSubmit() {
         }
     })
 }
+
+
+//when the flash message appears set it to null after 3 seconds
+//watch(props.flash.message, () => {
+//    setTimeout(() => {
+//        props.flash.message = null
+//   }, 3000)
+//})
 </script>
 
 <template>
